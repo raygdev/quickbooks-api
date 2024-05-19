@@ -23,6 +23,8 @@ You will have to manually change the [channel](./data-context/Client.js#L132) to
 
 ## Run the app
 
+Create a `.env` file and provide the keys in the `.env.sample` with the values of your secrets, ids, and tokens.
+
 After everything has been set up run the command
 ```
 npm run dev
