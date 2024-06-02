@@ -1,6 +1,7 @@
 const bolt = require('@slack/bolt')
 const express = require('express')
 const Client = require('./data-context/Client')
+const crypto = require("crypto")
 require('dotenv').config()
 const client = new Client()
 const app = new bolt.App({
@@ -25,6 +26,7 @@ app.receiver.app.post('/webhooks',(req, res) => {
         console.log(req.body)
       return  res.status(200).send('success')
     }
+    const hash = crypto.createHmac('sha256', process.env.QB_WEBHOOK_VERIFIER).update(webhookPayload).digest('base64')
     const entities = req.body.eventNotifications[0].dataChangeEvent.entities[0]
     const paymentType = entities.name === 'Payment'
     const id = entities.id
