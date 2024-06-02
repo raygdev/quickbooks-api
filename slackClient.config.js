@@ -27,6 +27,7 @@ app.receiver.app.post('/webhooks',(req, res) => {
       return  res.status(200).send('success')
     }
     const hash = crypto.createHmac('sha256', process.env.QB_WEBHOOK_VERIFIER).update(webhookPayload).digest('base64')
+    if(hash !== signature) return res.status(401).send("FORBIDDEN")
     const entities = req.body.eventNotifications[0].dataChangeEvent.entities[0]
     const paymentType = entities.name === 'Payment'
     const id = entities.id
